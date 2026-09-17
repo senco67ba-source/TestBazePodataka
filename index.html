@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="sr">
+<html lang="bs">
 <head>
 <meta charset="UTF-8">
 <title>Test - Baze podataka</title>
@@ -25,7 +25,7 @@
   button:hover { background: #14406e; }
   button:disabled { background: #95a5a6; cursor: not-allowed; }
   button.secondary { background: #6c757d; }
-  input[type=text] { padding: 10px; border: 1px solid #ccc; border-radius: 5px; width: 100%; font-size: 16px; }
+  input[type=text], input[type=email] { padding: 10px; border: 1px solid #ccc; border-radius: 5px; width: 100%; font-size: 16px; margin-bottom: 10px; }
   .result-box { text-align: center; padding: 30px; background: linear-gradient(135deg, #1a5490, #2e8b57); color: #fff; border-radius: 10px; margin: 20px 0; }
   .result-box .score { font-size: 48px; font-weight: bold; margin: 10px 0; }
   table { width: 100%; border-collapse: collapse; margin-top: 15px; }
@@ -71,49 +71,49 @@ const WARNING_5_MIN = 5 * 60;
 const WARNING_1_MIN = 60;      
 
 /* ============================================================
-   PITANJA - 5 VARIJANTI TESTA
+   PITANJA - 5 VARIJANTI TESTA (BOSANSKI - IJEKAVICA)
    ============================================================ */
 const TESTS = {
   1: [
     {q:"Šta označava skraćenica SQL?", type:"mcq", lvl:"osnovni", pts:1, opts:["Structured Query Language","Simple Question Language","System Query Logic","Standard Query Link"], a:0},
     {q:"Koja SQL komanda se koristi za dohvatanje podataka iz tabele?", type:"mcq", lvl:"osnovni", pts:1, opts:["GET","FETCH","SELECT","EXTRACT"], a:2},
     {q:"Koja komanda se koristi za dodavanje novih redova u tabelu?", type:"mcq", lvl:"osnovni", pts:1, opts:["ADD","INSERT","UPDATE","CREATE"], a:1},
-    {q:"Koja komanda menja postojeće podatke u tabeli?", type:"mcq", lvl:"osnovni", pts:1, opts:["MODIFY","CHANGE","ALTER","UPDATE"], a:3},
+    {q:"Koja komanda mijenja postojeće podatke u tabeli?", type:"mcq", lvl:"osnovni", pts:1, opts:["MODIFY","CHANGE","ALTER","UPDATE"], a:3},
     {q:"Koja komanda briše redove iz tabele?", type:"mcq", lvl:"osnovni", pts:1, opts:["REMOVE","DROP","DELETE","CLEAR"], a:2},
     {q:"Koja komanda se koristi za kreiranje nove tabele?", type:"mcq", lvl:"osnovni", pts:1, opts:["MAKE TABLE","NEW TABLE","CREATE TABLE","BUILD TABLE"], a:2},
-    {q:"Koja komanda briše celu tabelu iz baze?", type:"mcq", lvl:"osnovni", pts:1, opts:["DELETE TABLE","DROP TABLE","REMOVE TABLE","CLEAR TABLE"], a:1},
+    {q:"Koja komanda briše cijelu tabelu iz baze?", type:"mcq", lvl:"osnovni", pts:1, opts:["DELETE TABLE","DROP TABLE","REMOVE TABLE","CLEAR TABLE"], a:1},
     {q:"Šta je primarni ključ (PRIMARY KEY)?", type:"mcq", lvl:"osnovni", pts:1, opts:["Polje koje može biti NULL","Jedinstveni identifikator svakog reda","Strani ključ iz druge tabele","Indeks tabele"], a:1},
     {q:"Koji operator se koristi za uslovno filtriranje u SQL-u?", type:"mcq", lvl:"osnovni", pts:1, opts:["IF","WHEN","WHERE","FILTER"], a:2},
     {q:"Napišite SQL komandu koja iz tabele 'zaposleni' vraća sva imena i prezimena.", type:"sql", lvl:"osnovni", pts:1, a:["select ime, prezime from zaposleni","select ime,prezime from zaposleni"]},
-    {q:"Koja ključna reč se koristi za sortiranje rezultata?", type:"mcq", lvl:"srednji", pts:2, opts:["SORT BY","ORDER BY","ARRANGE BY","GROUP BY"], a:1},
+    {q:"Koja ključna riječ se koristi za sortiranje rezultata?", type:"mcq", lvl:"srednji", pts:2, opts:["SORT BY","ORDER BY","ARRANGE BY","GROUP BY"], a:1},
     {q:"Koja agregatna funkcija vraća broj redova?", type:"mcq", lvl:"srednji", pts:2, opts:["SUM()","TOTAL()","COUNT()","NUM()"], a:2},
-    {q:"Koju ključnu reč koristite da biste izbrojali samo jedinstvene vrednosti?", type:"mcq", lvl:"srednji", pts:2, opts:["DISTINCT","UNIQUE","COUNT DISTINCT","DIFFERENT"], a:0},
-    {q:"Koja ključna reč se koristi za grupisanje redova?", type:"mcq", lvl:"srednji", pts:2, opts:["COLLECT BY","GROUP BY","CLUSTER BY","AGGREGATE BY"], a:1},
-    {q:"Koja ključna reč filtrira grupe nakon GROUP BY?", type:"mcq", lvl:"srednji", pts:2, opts:["WHERE","FILTER","HAVING","GROUP FILTER"], a:2},
-    {q:"Napišite SQL upit koji iz tabele 'zaposleni' vraća zaposlene iz odeljenja 5, sortirane po prezimenu.", type:"sql", lvl:"srednji", pts:2, a:["select * from zaposleni where odeljenje_id=5 order by prezime","select * from zaposleni where odeljenje_id = 5 order by prezime"]},
+    {q:"Koju ključnu riječ koristite da biste izbrojali samo jedinstvene vrijednosti?", type:"mcq", lvl:"srednji", pts:2, opts:["DISTINCT","UNIQUE","COUNT DISTINCT","DIFFERENT"], a:0},
+    {q:"Koja ključna riječ se koristi za grupisanje redova?", type:"mcq", lvl:"srednji", pts:2, opts:["COLLECT BY","GROUP BY","CLUSTER BY","AGGREGATE BY"], a:1},
+    {q:"Koja ključna riječ filtrira grupe nakon GROUP BY?", type:"mcq", lvl:"srednji", pts:2, opts:["WHERE","FILTER","HAVING","GROUP FILTER"], a:2},
+    {q:"Napišite SQL upit koji iz tabele 'zaposleni' vraća zaposlene iz odjeljenja 5, sortirane po prezimenu.", type:"sql", lvl:"srednji", pts:2, a:["select * from zaposleni where odeljenje_id=5 order by prezime","select * from zaposleni where odeljenje_id = 5 order by prezime"]},
     {q:"Šta je indeks u bazi podataka?", type:"mcq", lvl:"napredni", pts:3, opts:["Rezervna kopija tabele","Struktura koja ubrzava pretragu","Tip podatka","Vrsta relacije"], a:1},
     {q:"Koja je razlika između DELETE i TRUNCATE?", type:"mcq", lvl:"napredni", pts:3, opts:["Nema razlike","DELETE briše tabelu, TRUNCATE redove","DELETE može imati WHERE, TRUNCATE briše sve redove brže","TRUNCATE je sporiji"], a:2},
     {q:"Šta je normalizacija baze podataka?", type:"mcq", lvl:"napredni", pts:3, opts:["Brisanje svih indeksa","Proces eliminacije redundanse kroz normalne forme","Kreiranje backup-a","Kopiranje tabele"], a:1},
-    {q:"Napišite SQL upit koji za svako odeljenje vraća broj zaposlenih i prosečnu platu, samo za odeljenja sa prosekom većim od 60000.", type:"sql", lvl:"napredni", pts:3, a:["select odeljenje_id, count(*), avg(plata) from zaposleni group by odeljenje_id having avg(plata)>60000","select odeljenje_id, count(*), avg(plata) from zaposleni group by odeljenje_id having avg(plata) > 60000"]}
+    {q:"Napišite SQL upit koji za svako odjeljenje vraća broj zaposlenih i prosječnu platu, samo za odjeljenja sa prosjekom većim od 60000.", type:"sql", lvl:"napredni", pts:3, a:["select odeljenje_id, count(*), avg(plata) from zaposleni group by odeljenje_id having avg(plata)>60000","select odeljenje_id, count(*), avg(plata) from zaposleni group by odeljenje_id having avg(plata) > 60000"]}
   ],
   2: [
     {q:"Koja komanda se koristi za dodavanje nove kolone u postojeću tabelu?", type:"mcq", lvl:"osnovni", pts:1, opts:["ALTER TABLE ... ADD","MODIFY TABLE","UPDATE TABLE","INSERT COLUMN"], a:0},
     {q:"Koji tip podatka se koristi za čuvanje datuma?", type:"mcq", lvl:"osnovni", pts:1, opts:["TIME","DATE","DATETIME","Sve navedeno"], a:3},
-    {q:"Šta znači NULL u bazi podataka?", type:"mcq", lvl:"osnovni", pts:1, opts:["Nula","Prazan string","Nedostajuća/nepoznata vrednost","Greška"], a:2},
-    {q:"Koji operator se koristi za proveru NULL vrednosti?", type:"mcq", lvl:"osnovni", pts:1, opts:["= NULL","IS NULL","== NULL","EQUALS NULL"], a:1},
-    {q:"Koja komanda menja strukturu tabele?", type:"mcq", lvl:"osnovni", pts:1, opts:["CHANGE","MODIFY","ALTER","UPDATE"], a:2},
+    {q:"Šta znači NULL u bazi podataka?", type:"mcq", lvl:"osnovni", pts:1, opts:["Nula","Prazan string","Nedostajuća/nepoznata vrijednost","Greška"], a:2},
+    {q:"Koji operator se koristi za provjeru NULL vrijednosti?", type:"mcq", lvl:"osnovni", pts:1, opts:["= NULL","IS NULL","== NULL","EQUALS NULL"], a:1},
+    {q:"Koja komanda mijenja strukturu tabele?", type:"mcq", lvl:"osnovni", pts:1, opts:["CHANGE","MODIFY","ALTER","UPDATE"], a:2},
     {q:"Šta je strani ključ (FOREIGN KEY)?", type:"mcq", lvl:"osnovni", pts:1, opts:["Ključ iz druge države","Polje koje referencira primarni ključ druge tabele","Alternativni primarni ključ","Unikatni indeks"], a:1},
-    {q:"Koja ključna reč ograničava broj vraćenih redova u MySQL-u?", type:"mcq", lvl:"osnovni", pts:1, opts:["TOP","LIMIT","FIRST","ROWNUM"], a:1},
+    {q:"Koja ključna riječ ograničava broj vraćenih redova u MySQL-u?", type:"mcq", lvl:"osnovni", pts:1, opts:["TOP","LIMIT","FIRST","ROWNUM"], a:1},
     {q:"Koji operator se koristi za pretragu po uzorku?", type:"mcq", lvl:"osnovni", pts:1, opts:["MATCH","LIKE","SIMILAR","FIND"], a:1},
     {q:"Koji znak se koristi kao wildcard u LIKE operatoru za bilo koji broj karaktera?", type:"mcq", lvl:"osnovni", pts:1, opts:["*","?","%","_"], a:2},
     {q:"Napišite SQL upit koji vraća sve zaposlene čije prezime počinje sa 'P'.", type:"sql", lvl:"osnovni", pts:1, a:["select * from zaposleni where prezime like 'p%'","select * from zaposleni where prezime like 'P%'"]},
-    {q:"Koja funkcija vraća najveću vrednost kolone?", type:"mcq", lvl:"srednji", pts:2, opts:["TOP()","MAX()","HIGHEST()","GREATEST()"], a:1},
-    {q:"Koja je razlika između INNER JOIN i LEFT JOIN?", type:"mcq", lvl:"srednji", pts:2, opts:["Nema razlike","INNER vraća samo poklapanja, LEFT vraća sve iz leve tabele","LEFT je brži","INNER ne podržava uslove"], a:1},
-    {q:"Šta radi komanda DISTINCT?", type:"mcq", lvl:"srednji", pts:2, opts:["Briše duplikate iz tabele","Vraća samo jedinstvene vrednosti","Sortira rezultate","Grupiše redove"], a:1},
-    {q:"Koja ključna reč kombinuje rezultate dva upita?", type:"mcq", lvl:"srednji", pts:2, opts:["MERGE","COMBINE","UNION","JOIN"], a:2},
-    {q:"Koja funkcija vraća prosečnu vrednost?", type:"mcq", lvl:"srednji", pts:2, opts:["MEDIAN()","AVG()","MEAN()","AVERAGE()"], a:1},
-    {q:"Napišite SQL upit koji spaja tabele 'zaposleni' i 'odeljenja' preko odeljenje_id i vraća ime zaposlenog i naziv odeljenja.", type:"sql", lvl:"srednji", pts:2, a:["select z.ime, o.naziv from zaposleni z join odeljenja o on z.odeljenje_id=o.id","select z.ime, o.naziv from zaposleni z inner join odeljenja o on z.odeljenje_id = o.id","select zaposleni.ime, odeljenja.naziv from zaposleni join odeljenja on zaposleni.odeljenje_id=odeljenja.id"]},
-    {q:"Šta je transakcija u bazi podataka?", type:"mcq", lvl:"napredni", pts:3, opts:["Backup procedure","Logička celina operacija koja se izvršava u celosti ili nikako","Tip upita","Vrsta indeksa"], a:1},
+    {q:"Koja funkcija vraća najveću vrijednost kolone?", type:"mcq", lvl:"srednji", pts:2, opts:["TOP()","MAX()","HIGHEST()","GREATEST()"], a:1},
+    {q:"Koja je razlika između INNER JOIN i LEFT JOIN?", type:"mcq", lvl:"srednji", pts:2, opts:["Nema razlike","INNER vraća samo poklapanja, LEFT vraća sve iz lijeve tabele","LEFT je brži","INNER ne podržava uslove"], a:1},
+    {q:"Šta radi komanda DISTINCT?", type:"mcq", lvl:"srednji", pts:2, opts:["Briše duplikate iz tabele","Vraća samo jedinstvene vrijednosti","Sortira rezultate","Grupiše redove"], a:1},
+    {q:"Koja ključna riječ kombinuje rezultate dva upita?", type:"mcq", lvl:"srednji", pts:2, opts:["MERGE","COMBINE","UNION","JOIN"], a:2},
+    {q:"Koja funkcija vraća prosječnu vrijednost?", type:"mcq", lvl:"srednji", pts:2, opts:["MEDIAN()","AVG()","MEAN()","AVERAGE()"], a:1},
+    {q:"Napišite SQL upit koji spaja tabele 'zaposleni' i 'odjeljenja' preko odeljenje_id i vraća ime zaposlenog i naziv odjeljenja.", type:"sql", lvl:"srednji", pts:2, a:["select z.ime, o.naziv from zaposleni z join odeljenja o on z.odeljenje_id=o.id","select z.ime, o.naziv from zaposleni z inner join odeljenja o on z.odeljenje_id = o.id","select zaposleni.ime, odeljenja.naziv from zaposleni join odeljenja on zaposleni.odeljenje_id=odeljenja.id"]},
+    {q:"Šta je transakcija u bazi podataka?", type:"mcq", lvl:"napredni", pts:3, opts:["Backup procedure","Logička cjelina operacija koja se izvršava u cjelosti ili nikako","Tip upita","Vrsta indeksa"], a:1},
     {q:"Koje komande kontrolišu transakciju?", type:"mcq", lvl:"napredni", pts:3, opts:["START/STOP","BEGIN/END","COMMIT/ROLLBACK","OPEN/CLOSE"], a:2},
     {q:"Šta je ACID svojstvo baza podataka?", type:"mcq", lvl:"napredni", pts:3, opts:["Tip SQL upita","Atomicity, Consistency, Isolation, Durability","Metod normalizacije","Vrsta indeksa"], a:1},
     {q:"Napišite SQL upit koji vraća zaposlene koji rade na projektu 'Alpha' koristeći subquery.", type:"sql", lvl:"napredni", pts:3, a:["select * from zaposleni where id in (select zaposleni_id from rad_na_projektu where projekat_id in (select id from projekti where naziv='alpha'))","select * from zaposleni where id in (select zaposleni_id from rad_na_projektu where projekat_id = (select id from projekti where naziv='Alpha'))"]}
@@ -123,66 +123,66 @@ const TESTS = {
     {q:"Koja komanda oduzima dozvolu korisniku?", type:"mcq", lvl:"osnovni", pts:1, opts:["DENY","REVOKE","REMOVE","TAKE"], a:1},
     {q:"Šta je pogled (VIEW)?", type:"mcq", lvl:"osnovni", pts:1, opts:["Fizička tabela","Virtuelna tabela bazirana na upitu","Backup","Indeks"], a:1},
     {q:"Koja komanda kreira pogled?", type:"mcq", lvl:"osnovni", pts:1, opts:["MAKE VIEW","CREATE VIEW","NEW VIEW","DEFINE VIEW"], a:1},
-    {q:"Koji tip podatka čuvate za cene proizvoda sa decimalama?", type:"mcq", lvl:"osnovni", pts:1, opts:["INT","DECIMAL/NUMERIC","FLOAT","VARCHAR"], a:1},
+    {q:"Koji tip podatka čuvate za cijene proizvoda sa decimalama?", type:"mcq", lvl:"osnovni", pts:1, opts:["INT","DECIMAL/NUMERIC","FLOAT","VARCHAR"], a:1},
     {q:"Šta je ER dijagram?", type:"mcq", lvl:"osnovni", pts:1, opts:["Dijagram toka programa","Dijagram entiteta i relacija","Dijagram mreže","Dijagram klasa"], a:1},
     {q:"Koja komanda se koristi za brisanje kolone iz tabele?", type:"mcq", lvl:"osnovni", pts:1, opts:["ALTER TABLE ... DROP COLUMN","DELETE COLUMN","REMOVE COLUMN","MODIFY TABLE"], a:0},
-    {q:"Šta znači NOT NULL ograničenje?", type:"mcq", lvl:"osnovni", pts:1, opts:["Polje mora biti jedinstveno","Polje ne sme biti prazno","Polje je automatski increment","Polje je primarni ključ"], a:1},
-    {q:"Koja ključna reč vraća prvih N redova u SQL Server-u?", type:"mcq", lvl:"osnovni", pts:1, opts:["LIMIT","TOP","FIRST","HEAD"], a:1},
+    {q:"Šta znači NOT NULL ograničenje?", type:"mcq", lvl:"osnovni", pts:1, opts:["Polje mora biti jedinstveno","Polje ne smije biti prazno","Polje je automatski increment","Polje je primarni ključ"], a:1},
+    {q:"Koja ključna riječ vraća prvih N redova u SQL Server-u?", type:"mcq", lvl:"osnovni", pts:1, opts:["LIMIT","TOP","FIRST","HEAD"], a:1},
     {q:"Napišite SQL upit koji vraća sve zaposlene sa platom između 40000 i 60000.", type:"sql", lvl:"osnovni", pts:1, a:["select * from zaposleni where plata between 40000 and 60000","select * from zaposleni where plata >= 40000 and plata <= 60000"]},
-    {q:"Koja funkcija zaokružuje broj na ceo?", type:"mcq", lvl:"srednji", pts:2, opts:["ROUND()","CEIL()/FLOOR()","TRUNC()","INT()"], a:1},
-    {q:"Šta je COALESCE funkcija?", type:"mcq", lvl:"srednji", pts:2, opts:["Briše NULL vrednosti","Vraća prvi ne-NULL argument","Menja tip podatka","Grupiše NULL-ove"], a:1},
-    {q:"Koja je razlika između CHAR i VARCHAR?", type:"mcq", lvl:"srednji", pts:2, opts:["Nema razlike","CHAR je fiksne dužine, VARCHAR promenljive","VARCHAR je brži","CHAR čuva brojeve"], a:1},
+    {q:"Koja funkcija zaokružuje broj na cio?", type:"mcq", lvl:"srednji", pts:2, opts:["ROUND()","CEIL()/FLOOR()","TRUNC()","INT()"], a:1},
+    {q:"Šta je COALESCE funkcija?", type:"mcq", lvl:"srednji", pts:2, opts:["Briše NULL vrijednosti","Vraća prvi ne-NULL argument","Mijenja tip podatka","Grupiše NULL-ove"], a:1},
+    {q:"Koja je razlika između CHAR i VARCHAR?", type:"mcq", lvl:"srednji", pts:2, opts:["Nema razlike","CHAR je fiksne dužine, VARCHAR promjenljive","VARCHAR je brži","CHAR čuva brojeve"], a:1},
     {q:"Koja komanda pravi rezervnu kopiju baze u MySQL-u (komandna linija)?", type:"mcq", lvl:"srednji", pts:2, opts:["BACKUP DATABASE","mysqldump","COPY DATABASE","EXPORT DB"], a:1},
-    {q:"Šta radi CASE izraz u SQL-u?", type:"mcq", lvl:"srednji", pts:2, opts:["Kreira tabelu","Uslovno vraća različite vrednosti","Briše redove","Menja kolone"], a:1},
+    {q:"Šta radi CASE izraz u SQL-u?", type:"mcq", lvl:"srednji", pts:2, opts:["Kreira tabelu","Uslovno vraća različite vrijednosti","Briše redove","Mijenja kolone"], a:1},
     {q:"Napišite SQL upit koji vraća ime, platu i kategoriju ('Visoka' ako plata > 70000, inače 'Normalna') za svakog zaposlenog.", type:"sql", lvl:"srednji", pts:2, a:["select ime, plata, case when plata>70000 then 'Visoka' else 'Normalna' end as kategorija from zaposleni","select ime, plata, case when plata > 70000 then 'Visoka' else 'Normalna' end from zaposleni"]},
-    {q:"Šta je denormalizacija i kada se koristi?", type:"mcq", lvl:"napredni", pts:3, opts:["Uvek je bolja od normalizacije","Namerno uvođenje redundanse radi brzine čitanja","Brisanje indeksa","Migracija podataka"], a:1},
-    {q:"Šta je SQL injekcija?", type:"mcq", lvl:"napredni", pts:3, opts:["Optimizacija upita","Bezbednosni napad ubacivanjem malicioznog SQL koda","Način spajanja tabela","Tip indeksa"], a:1},
-    {q:"Koja je svrha stored procedure?", type:"mcq", lvl:"napredni", pts:3, opts:["Samo za backup","Unapred definisani SQL kod koji se može ponovo koristiti, poboljšava performanse i bezbednost","Zamena za tabelu","Vrsta indeksa"], a:1},
-    {q:"Napišite SQL upit koji vraća zaposlene koji imaju platu veću od proseka svih zaposlenih.", type:"sql", lvl:"napredni", pts:3, a:["select * from zaposleni where plata > (select avg(plata) from zaposleni)"]}
+    {q:"Šta je denormalizacija i kada se koristi?", type:"mcq", lvl:"napredni", pts:3, opts:["Uvijek je bolja od normalizacije","Namjerno uvođenje redundanse radi brzine čitanja","Brisanje indeksa","Migracija podataka"], a:1},
+    {q:"Šta je SQL injekcija?", type:"mcq", lvl:"napredni", pts:3, opts:["Optimizacija upita","Bezbjednosni napad ubacivanjem malicioznog SQL koda","Način spajanja tabela","Tip indeksa"], a:1},
+    {q:"Koja je svrha stored procedure?", type:"mcq", lvl:"napredni", pts:3, opts:["Samo za backup","Unaprijed definisani SQL kod koji se može ponovo koristiti, poboljšava performanse i bezbjednost","Zamjena za tabelu","Vrsta indeksa"], a:1},
+    {q:"Napišite SQL upit koji vraća zaposlene koji imaju platu veću od prosjeka svih zaposlenih.", type:"sql", lvl:"napredni", pts:3, a:["select * from zaposleni where plata > (select avg(plata) from zaposleni)"]}
   ],
   4: [
     {q:"Koja komanda se koristi za kreiranje baze podataka?", type:"mcq", lvl:"osnovni", pts:1, opts:["MAKE DATABASE","NEW DATABASE","CREATE DATABASE","BUILD DATABASE"], a:2},
     {q:"Koja komanda se koristi za brisanje baze podataka?", type:"mcq", lvl:"osnovni", pts:1, opts:["DELETE DATABASE","DROP DATABASE","REMOVE DATABASE","CLEAR DATABASE"], a:1},
-    {q:"Koja komanda menja aktivnu bazu podataka?", type:"mcq", lvl:"osnovni", pts:1, opts:["SELECT DATABASE","USE","OPEN","CONNECT"], a:1},
+    {q:"Koja komanda mijenja aktivnu bazu podataka?", type:"mcq", lvl:"osnovni", pts:1, opts:["SELECT DATABASE","USE","OPEN","CONNECT"], a:1},
     {q:"Šta je RDBMS?", type:"mcq", lvl:"osnovni", pts:1, opts:["Relational Database Management System","Rapid Data Management System","Remote Database Module System","Real Database Master Server"], a:0},
     {q:"Koji od navedenih NIJE RDBMS?", type:"mcq", lvl:"osnovni", pts:1, opts:["MySQL","PostgreSQL","MongoDB","Oracle"], a:2},
-    {q:"Šta je kolona u bazi podataka?", type:"mcq", lvl:"osnovni", pts:1, opts:["Red u tabeli","Atribut/obeležje entiteta","Ime baze","Tip veze"], a:1},
+    {q:"Šta je kolona u bazi podataka?", type:"mcq", lvl:"osnovni", pts:1, opts:["Red u tabeli","Atribut/obilježje entiteta","Ime baze","Tip veze"], a:1},
     {q:"Koja komanda prikazuje sve tabele u bazi?", type:"mcq", lvl:"osnovni", pts:1, opts:["LIST TABLES","SHOW TABLES","DISPLAY TABLES","GET TABLES"], a:1},
-    {q:"Koja je maksimalna vrednost INT tipa (32-bitni potpisani)?", type:"mcq", lvl:"osnovni", pts:1, opts:["999999","2,147,483,647","1,000,000","Nema limita"], a:1},
-    {q:"Koja ključna reč se koristi za spajanje tabela u SQL-u?", type:"mcq", lvl:"osnovni", pts:1, opts:["MERGE","LINK","JOIN","CONNECT"], a:2},
+    {q:"Koja je maksimalna vrijednost INT tipa (32-bitni potpisani)?", type:"mcq", lvl:"osnovni", pts:1, opts:["999999","2,147,483,647","1,000,000","Nema limita"], a:1},
+    {q:"Koja ključna riječ se koristi za spajanje tabela u SQL-u?", type:"mcq", lvl:"osnovni", pts:1, opts:["MERGE","LINK","JOIN","CONNECT"], a:2},
     {q:"Napišite SQL upit koji vraća ukupan broj zaposlenih u tabeli 'zaposleni'.", type:"sql", lvl:"osnovni", pts:1, a:["select count(*) from zaposleni","select count(id) from zaposleni"]},
-    {q:"Koja agregatna funkcija sabira vrednosti?", type:"mcq", lvl:"srednji", pts:2, opts:["ADD()","TOTAL()","SUM()","PLUS()"], a:2},
+    {q:"Koja agregatna funkcija sabira vrijednosti?", type:"mcq", lvl:"srednji", pts:2, opts:["ADD()","TOTAL()","SUM()","PLUS()"], a:2},
     {q:"Šta je subquery (podupit)?", type:"mcq", lvl:"srednji", pts:2, opts:["Upit unutar drugog upita","Greška u upitu","Tip tabele","Vrsta indeksa"], a:0},
-    {q:"Koja ključna reč proverava da li subquery vraća bilo koji red?", type:"mcq", lvl:"srednji", pts:2, opts:["ANY","EXISTS","SOME","IN"], a:1},
+    {q:"Koja ključna riječ provjerava da li subquery vraća bilo koji red?", type:"mcq", lvl:"srednji", pts:2, opts:["ANY","EXISTS","SOME","IN"], a:1},
     {q:"Šta je self join?", type:"mcq", lvl:"srednji", pts:2, opts:["Join iste tabele samu sa sobom","Join bez uslova","Automatski join","Join svih tabela"], a:0},
-    {q:"Koja ključna reč se koristi za ažuriranje šeme baze?", type:"mcq", lvl:"srednji", pts:2, opts:["MODIFY","CHANGE","ALTER","UPDATE"], a:2},
-    {q:"Napišite SQL upit koji vraća odeljenja sa više od 5 zaposlenih.", type:"sql", lvl:"srednji", pts:2, a:["select odeljenje_id from zaposleni group by odeljenje_id having count(*)>5","select odeljenje_id from zaposleni group by odeljenje_id having count(*) > 5"]},
+    {q:"Koja ključna riječ se koristi za ažuriranje šeme baze?", type:"mcq", lvl:"srednji", pts:2, opts:["MODIFY","CHANGE","ALTER","UPDATE"], a:2},
+    {q:"Napišite SQL upit koji vraća odjeljenja sa više od 5 zaposlenih.", type:"sql", lvl:"srednji", pts:2, a:["select odeljenje_id from zaposleni group by odeljenje_id having count(*)>5","select odeljenje_id from zaposleni group by odeljenje_id having count(*) > 5"]},
     {q:"Šta je trigger u bazi podataka?", type:"mcq", lvl:"napredni", pts:3, opts:["Tip tabele","Automatski izvršavani SQL kod pri određenom događaju (INSERT/UPDATE/DELETE)","Vrsta indeksa","Tip korisnika"], a:1},
-    {q:"Koji nivo izolacije transakcije sprečava 'phantom reads'?", type:"mcq", lvl:"napredni", pts:3, opts:["READ UNCOMMITTED","READ COMMITTED","REPEATABLE READ","SERIALIZABLE"], a:3},
+    {q:"Koji nivo izolacije transakcije sprječava 'phantom reads'?", type:"mcq", lvl:"napredni", pts:3, opts:["READ UNCOMMITTED","READ COMMITTED","REPEATABLE READ","SERIALIZABLE"], a:3},
     {q:"Šta je B-tree indeks?", type:"mcq", lvl:"napredni", pts:3, opts:["Indeks u obliku binarnog stabla","Balansirano stablo pretrage koje omogućava brzo pronalaženje, insert i delete","Vrsta tabele","Tip podatka"], a:1},
     {q:"Napišite SQL upit koji vraća top 3 zaposlenih po plati (ime i plata).", type:"sql", lvl:"napredni", pts:3, a:["select ime, plata from zaposleni order by plata desc limit 3"]}
   ],
   5: [
-    {q:"Koja komanda se koristi za dodeljivanje role korisniku?", type:"mcq", lvl:"osnovni", pts:1, opts:["SET ROLE","GRANT ROLE","ASSIGN ROLE","GIVE ROLE"], a:1},
+    {q:"Koja komanda se koristi za dodjeljivanje role korisniku?", type:"mcq", lvl:"osnovni", pts:1, opts:["SET ROLE","GRANT ROLE","ASSIGN ROLE","GIVE ROLE"], a:1},
     {q:"Šta je šema (schema) baze podataka?", type:"mcq", lvl:"osnovni", pts:1, opts:["Logička struktura baze","Fizički fajl","Backup","Korisnik"], a:0},
     {q:"Koja je osnovna jedinica skladištenja podataka u relacionoj bazi?", type:"mcq", lvl:"osnovni", pts:1, opts:["Fajl","Tabela (relacija)","Kolona","Upit"], a:1},
     {q:"Koja komanda dodaje primarni ključ naknadno?", type:"mcq", lvl:"osnovni", pts:1, opts:["ALTER TABLE ... ADD PRIMARY KEY","SET PRIMARY KEY","MAKE PRIMARY","ADD KEY"], a:0},
-    {q:"Koja je svrha UNIQUE ograničenja?", type:"mcq", lvl:"osnovni", pts:1, opts:["Dozvoljava duplikate","Osigurava da su sve vrednosti u koloni jedinstvene","Automatski increment","Briše NULL-ove"], a:1},
-    {q:"Šta je CHECK ograničenje?", type:"mcq", lvl:"osnovni", pts:1, opts:["Provera korisnika","Ograničenje koje proverava da vrednost zadovoljava uslov","Backup provera","Provera lozinke"], a:1},
-    {q:"Koja komanda menja ime tabele?", type:"mcq", lvl:"osnovni", pts:1, opts:["ALTER TABLE ... RENAME TO","RENAME TABLE","CHANGE TABLE NAME","UPDATE TABLE NAME"], a:0},
+    {q:"Koja je svrha UNIQUE ograničenja?", type:"mcq", lvl:"osnovni", pts:1, opts:["Dozvoljava duplikate","Osigurava da su sve vrijednosti u koloni jedinstvene","Automatski increment","Briše NULL-ove"], a:1},
+    {q:"Šta je CHECK ograničenje?", type:"mcq", lvl:"osnovni", pts:1, opts:["Provjera korisnika","Ograničenje koje provjerava da vrijednost zadovoljava uslov","Backup provjera","Provjera lozinke"], a:1},
+    {q:"Koja komanda mijenja ime tabele?", type:"mcq", lvl:"osnovni", pts:1, opts:["ALTER TABLE ... RENAME TO","RENAME TABLE","CHANGE TABLE NAME","UPDATE TABLE NAME"], a:0},
     {q:"Koji je rezultat CROSS JOIN-a tabela sa 5 i 4 reda?", type:"mcq", lvl:"osnovni", pts:1, opts:["5 redova","4 reda","9 redova","20 redova"], a:3},
-    {q:"Koja je razlika između WHERE i HAVING?", type:"mcq", lvl:"osnovni", pts:1, opts:["Nema razlike","WHERE filtrira redove pre grupisanja, HAVING posle","HAVING je brži","WHERE se koristi samo sa JOIN-om"], a:1},
-    {q:"Napišite SQL upit koji vraća sve jedinstvene vrednosti iz kolone 'grad' u tabeli 'zaposleni'.", type:"sql", lvl:"osnovni", pts:1, a:["select distinct grad from zaposleni"]},
+    {q:"Koja je razlika između WHERE i HAVING?", type:"mcq", lvl:"osnovni", pts:1, opts:["Nema razlike","WHERE filtrira redove prije grupisanja, HAVING poslije","HAVING je brži","WHERE se koristi samo sa JOIN-om"], a:1},
+    {q:"Napišite SQL upit koji vraća sve jedinstvene vrijednosti iz kolone 'grad' u tabeli 'zaposleni'.", type:"sql", lvl:"osnovni", pts:1, a:["select distinct grad from zaposleni"]},
     {q:"Koja funkcija vraća dužinu stringa?", type:"mcq", lvl:"srednji", pts:2, opts:["SIZE()","LENGTH()","STRLEN()","LEN() i LENGTH() zavisno od baze"], a:3},
     {q:"Šta je CTE (Common Table Expression)?", type:"mcq", lvl:"srednji", pts:2, opts:["Privremeni imenovani rezultat koji se koristi u upitu","Tip tabele","Vrsta indeksa","Backup procedura"], a:0},
-    {q:"Koja ključna reč se koristi za definisanje CTE-a?", type:"mcq", lvl:"srednji", pts:2, opts:["WITH","CTE","TEMP","DEFINE"], a:0},
+    {q:"Koja ključna riječ se koristi za definisanje CTE-a?", type:"mcq", lvl:"srednji", pts:2, opts:["WITH","CTE","TEMP","DEFINE"], a:0},
     {q:"Šta je window funkcija?", type:"mcq", lvl:"srednji", pts:2, opts:["Funkcija koja radi nad prozorom OS-a","Funkcija koja radi nad skupom redova povezanim sa trenutnim redom (OVER)","GUI funkcija","Funkcija za backup"], a:1},
-    {q:"Koja ključna reč se koristi za definisanje prozora kod window funkcija?", type:"mcq", lvl:"srednji", pts:2, opts:["WINDOW","OVER","RANGE","PARTITION"], a:1},
-    {q:"Napišite SQL upit koji vraća ime zaposlenog i rang po plati unutar odeljenja.", type:"sql", lvl:"srednji", pts:2, a:["select ime, rank() over (partition by odeljenje_id order by plata desc) as rang from zaposleni","select ime, rank() over(partition by odeljenje_id order by plata desc) from zaposleni"]},
+    {q:"Koja ključna riječ se koristi za definisanje prozora kod window funkcija?", type:"mcq", lvl:"srednji", pts:2, opts:["WINDOW","OVER","RANGE","PARTITION"], a:1},
+    {q:"Napišite SQL upit koji vraća ime zaposlenog i rang po plati unutar odjeljenja.", type:"sql", lvl:"srednji", pts:2, a:["select ime, rank() over (partition by odeljenje_id order by plata desc) as rang from zaposleni","select ime, rank() over(partition by odeljenje_id order by plata desc) from zaposleni"]},
     {q:"Šta je plan izvršavanja upita (execution plan)?", type:"mcq", lvl:"napredni", pts:3, opts:["Lista korisnika","Način na koji DBMS izvršava upit - koristi se za optimizaciju","Backup plan","Plan migracije"], a:1},
-    {q:"Koja je razlika između clustered i non-clustered indeksa?", type:"mcq", lvl:"napredni", pts:3, opts:["Nema razlike","Clustered određuje fizički redosled redova (samo jedan), non-clustered je odvojen","Non-clustered je brži","Clustered se koristi samo za tekst"], a:1},
-    {q:"Šta je particionisanje tabele?", type:"mcq", lvl:"napredni", pts:3, opts:["Brisanje tabele","Fizičko deljenje velike tabele na manje delove radi performansi","Kopiranje tabele","Šifrovanje"], a:1},
-    {q:"Napišite SQL upit koji koristi CTE da pronađe zaposlene sa platom većom od proseka njihovog odeljenja.", type:"sql", lvl:"napredni", pts:3, a:["with prosek as (select odeljenje_id, avg(plata) as avg_plata from zaposleni group by odeljenje_id) select z.* from zaposleni z join prosek p on z.odeljenje_id=p.odeljenje_id where z.plata>p.avg_plata","with avg_sal as (select odeljenje_id, avg(plata) as a from zaposleni group by odeljenje_id) select z.* from zaposleni z join avg_sal a on z.odeljenje_id=a.odeljenje_id where z.plata>a.a"]}
+    {q:"Koja je razlika između clustered i non-clustered indeksa?", type:"mcq", lvl:"napredni", pts:3, opts:["Nema razlike","Clustered određuje fizički redoslijed redova (samo jedan), non-clustered je odvojen","Non-clustered je brži","Clustered se koristi samo za tekst"], a:1},
+    {q:"Šta je particionisanje tabele?", type:"mcq", lvl:"napredni", pts:3, opts:["Brisanje tabele","Fizičko dijeljenje velike tabele na manje dijelove radi performansi","Kopiranje tabele","Šifrovanje"], a:1},
+    {q:"Napišite SQL upit koji koristi CTE da pronađe zaposlene sa platom većom od prosjeka njihovog odjeljenja.", type:"sql", lvl:"napredni", pts:3, a:["with prosek as (select odeljenje_id, avg(plata) as avg_plata from zaposleni group by odeljenje_id) select z.* from zaposleni z join prosek p on z.odeljenje_id=p.odeljenje_id where z.plata>p.avg_plata","with avg_sal as (select odeljenje_id, avg(plata) as a from zaposleni group by odeljenje_id) select z.* from zaposleni z join avg_sal a on z.odeljenje_id=a.odeljenje_id where z.plata>a.a"]}
   ]
 };
 
@@ -192,6 +192,7 @@ const TESTS = {
 const app = document.getElementById('app');
 let currentTest = null;
 let candidateName = '';
+let candidateEmail = '';
 let startTime = null;
 let endTime = null;
 let timerInterval;
@@ -248,32 +249,45 @@ function showNotification(message, type, duration = 4000) {
 }
 
 /* ============================================================
-   EKRAN 1: UNOS IMENA
+   EKRAN 1: UNOS IMENA I EMAILA
    ============================================================ */
 function showStart() {
   testSubmitted = false; warned5 = false; warned1 = false;
   app.innerHTML = `
     <h1>🎓 Test iz baza podataka</h1>
-    <p>Dobrodošli na test za procenu znanja iz rada sa bazama podataka i SQL-om.</p>
+    <p>Dobrodošli na test za procjenu znanja iz rada sa bazama podataka i SQL-om.</p>
     <p><strong>Pravila:</strong></p>
     <ul>
       <li>Test sadrži 20 pitanja različitog nivoa težine</li>
       <li>Maksimalan broj bodova: <strong>34</strong></li>
       <li>Nivoi: Osnovni (0-33%), Srednji (34-66%), Napredni (67-100%)</li>
       <li>SQL zadatke pišite bez viška razmaka, velika/mala slova nisu bitna</li>
-      <li style="color:#c0392b; font-weight:bold;">⏱ Vreme za test: <strong>30 minuta</strong> — test se automatski predaje kada vreme istekne!</li>
+      <li style="color:#c0392b; font-weight:bold;">⏱ Vrijeme za test: <strong>30 minuta</strong> — test se automatski predaje kada vrijeme istekne!</li>
     </ul>
     <h2>Unesite vaše podatke</h2>
     <input type="text" id="nameInput" placeholder="Ime i prezime" />
-    <br><br>
+    <input type="email" id="emailInput" placeholder="Email adresa" />
+    <br>
     <button onclick="startTest()">Započni test</button>
   `;
 }
 
 function startTest() {
   const name = document.getElementById('nameInput').value.trim();
+  const email = document.getElementById('emailInput').value.trim();
+  
   if (!name) { alert('Molimo unesite ime i prezime.'); return; }
+  if (!email) { alert('Molimo unesite email adresu.'); return; }
+  
+  // Provjera formata emaila
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    alert('Molimo unesite validnu email adresu.');
+    return;
+  }
+  
   candidateName = name;
+  candidateEmail = email;
 
   const variant = Math.floor(Math.random() * 5) + 1;
   const questions = shuffle(TESTS[variant]).map(q => {
@@ -301,8 +315,8 @@ function renderTest() {
   const q = currentTest.questions;
   let html = `
     <h1>Test - ${candidateName}</h1>
-    <div class="timer" id="timer">⏱ Preostalo vreme: ${formatTime(TEST_DURATION)}</div>
-    <p>Varijanta testa: <strong>${currentTest.variant}</strong> | Pitanja: <strong>${q.length}</strong></p>
+    <div class="timer" id="timer">⏱ Preostalo vrijeme: ${formatTime(TEST_DURATION)}</div>
+    <p>Varijanta testa: <strong>${currentTest.variant}</strong> | Pitanja: <strong>${q.length}</strong> | Email: <strong>${candidateEmail}</strong></p>
     <form id="testForm" onsubmit="submitTest(event)">
   `;
   q.forEach((item, idx) => {
@@ -318,7 +332,7 @@ function renderTest() {
       html += `</div>`;
     } else if (item.type === 'sql') {
       html += `<textarea name="q${idx}" placeholder="Napišite SQL komandu..." oninput="currentTest.answers[${idx}]=this.value"></textarea>
-               <div class="sql-hint">Savet: velika/mala slova nisu bitna, tačka-zarez na kraju nije obavezan.</div>`;
+               <div class="sql-hint">Savjet: velika/mala slova nisu bitna, tačka-zarez na kraju nije obavezan.</div>`;
     }
     html += `</div></div>`;
   });
@@ -335,7 +349,7 @@ function updateTimer() {
 
     const now = Date.now();
     const timeLeft = Math.max(0, Math.floor((endTime - now) / 1000));
-    timerEl.textContent = `⏱ Preostalo vreme: ${formatTime(timeLeft)}`;
+    timerEl.textContent = `⏱ Preostalo vrijeme: ${formatTime(timeLeft)}`;
 
     if (timeLeft <= WARNING_5_MIN && timeLeft > WARNING_1_MIN && !warned5) {
       warned5 = true; timerEl.classList.add('warning');
@@ -347,7 +361,7 @@ function updateTimer() {
     }
     if (timeLeft <= 0) {
       clearInterval(timerInterval);
-      showNotification('⏰ Vreme je isteklo! Test se automatski predaje...', 'danger', 3000);
+      showNotification('⏰ Vrijeme je isteklo! Test se automatski predaje...', 'danger', 3000);
       setTimeout(() => submitTest(null, true), 1500);
     }
   }, 1000);
@@ -395,15 +409,24 @@ async function submitTest(e, autoSubmit = false) {
   const pct = Math.round((totalScore / maxScore) * 100);
 
   const result = {
-    name: candidateName, variant: currentTest.variant, score: totalScore, maxScore, pct, level,
-    time: timeTaken, autoSubmitted: autoSubmit, date: new Date().toISOString(), details
+    name: candidateName,
+    email: candidateEmail,
+    variant: currentTest.variant,
+    score: totalScore,
+    maxScore,
+    pct,
+    level,
+    time: timeTaken,
+    autoSubmitted: autoSubmit,
+    date: new Date().toISOString(),
+    details
   };
 
   // 1. Slanje na Google Sheets
   try {
     await fetch(GOOGLE_SCRIPT_URL, {
       method: 'POST',
-      mode: 'no-cors', // Sprečava CORS greške u browseru, podaci i dalje stižu
+      mode: 'no-cors',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(result)
     });
@@ -411,7 +434,7 @@ async function submitTest(e, autoSubmit = false) {
     console.error("Greška pri slanju na Google Sheets:", err);
   }
 
-  // 2. Čuvanje lokalno (za admin panel na istom uređaju)
+  // 2. Čuvanje lokalno
   const all = JSON.parse(localStorage.getItem('db_test_results') || '[]');
   all.push(result);
   localStorage.setItem('db_test_results', JSON.stringify(all));
@@ -422,16 +445,17 @@ async function submitTest(e, autoSubmit = false) {
 
 function showResult(r) {
   const m = Math.floor(r.time / 60), s = r.time % 60;
-  const autoNote = r.autoSubmitted ? '<div style="margin-top:10px; font-size:14px; color:#ffcccc;">⏰ Test je automatski predat jer je vreme isteklo</div>' : '';
+  const autoNote = r.autoSubmitted ? '<div style="margin-top:10px; font-size:14px; color:#ffcccc;">⏰ Test je automatski predat jer je vrijeme isteklo</div>' : '';
 
   let html = `
     <h1>🎓 Rezultat testa</h1>
     <div class="result-box">
       <div>${r.name}</div>
+      <div style="font-size:16px; margin-top:5px;">${r.email}</div>
       <div class="score">${r.score} / ${r.maxScore}</div>
       <div>${r.pct}% tačnih</div>
       <div style="margin-top:15px;"><span class="level-badge level-${r.level}">${levelLabel(r.level).toUpperCase()} NIVO</span></div>
-      <div style="margin-top:10px; font-size:14px;">Vreme: ${m}:${s.toString().padStart(2,'0')} | Varijanta: ${r.variant}</div>
+      <div style="margin-top:10px; font-size:14px;">Vrijeme: ${m}:${s.toString().padStart(2,'0')} | Varijanta: ${r.variant}</div>
       ${autoNote}
     </div>
     <h2>Detaljan pregled</h2>
@@ -465,11 +489,11 @@ function showAdmin() {
     <p><strong>Napomena:</strong> Svi rezultati se automatski čuvaju u vašoj Google Sheets tabeli. Ovo je samo lokalni pregled.</p>
     <p>Ukupno kandidata na ovom uređaju: <strong>${all.length}</strong></p>
     <table>
-      <tr><th>#</th><th>Ime</th><th>Datum</th><th>Varijanta</th><th>Bodovi</th><th>%</th><th>Nivo</th><th>Vreme</th><th>Auto?</th></tr>`;
+      <tr><th>#</th><th>Ime</th><th>Email</th><th>Datum</th><th>Varijanta</th><th>Bodovi</th><th>%</th><th>Nivo</th><th>Vrijeme</th><th>Auto?</th></tr>`;
   all.forEach((r, i) => {
-    const d = new Date(r.date).toLocaleString('sr-RS');
+    const d = new Date(r.date).toLocaleString('bs-BA');
     const m = Math.floor(r.time/60), s = r.time%60;
-    html += `<tr><td>${i+1}</td><td>${escapeHtml(r.name)}</td><td>${d}</td><td>${r.variant}</td><td>${r.score}/${r.maxScore}</td><td>${r.pct}%</td><td><span class="level-badge level-${r.level}">${levelLabel(r.level)}</span></td><td>${m}:${s.toString().padStart(2,'0')}</td><td>${r.autoSubmitted ? '⏰ DA' : '✅ NE'}</td></tr>`;
+    html += `<tr><td>${i+1}</td><td>${escapeHtml(r.name)}</td><td>${escapeHtml(r.email || '')}</td><td>${d}</td><td>${r.variant}</td><td>${r.score}/${r.maxScore}</td><td>${r.pct}%</td><td><span class="level-badge level-${r.level}">${levelLabel(r.level)}</span></td><td>${m}:${s.toString().padStart(2,'0')}</td><td>${r.autoSubmitted ? '⏰ DA' : '✅ NE'}</td></tr>`;
   });
   html += `</table><br>
     <button class="secondary" onclick="clearResults()">🗑 Obriši lokalne rezultate</button>
