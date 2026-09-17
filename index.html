@@ -21,8 +21,9 @@
   .options label:hover { background: #eef5fc; }
   .options input { margin-right: 10px; }
   textarea { width: 100%; font-family: 'Consolas', monospace; padding: 10px; border: 1px solid #ccc; border-radius: 5px; min-height: 70px; }
-  button { background: #1a5490; color: #fff; border: none; padding: 12px 30px; font-size: 16px; border-radius: 5px; cursor: pointer; margin: 5px; }
+  button { background: #1a5490; color: #fff; border: none; padding: 12px 30px; font-size: 16px; border-radius: 5px; cursor: pointer; margin: 5px; transition: background 0.2s; }
   button:hover { background: #14406e; }
+  button:disabled { background: #95a5a6; cursor: not-allowed; }
   button.secondary { background: #6c757d; }
   input[type=text] { padding: 10px; border: 1px solid #ccc; border-radius: 5px; width: 100%; font-size: 16px; }
   .result-box { text-align: center; padding: 30px; background: linear-gradient(135deg, #1a5490, #2e8b57); color: #fff; border-radius: 10px; margin: 20px 0; }
@@ -35,65 +36,25 @@
   .admin-btn:hover { opacity: 1; }
   .sql-hint { font-size: 12px; color: #666; font-style: italic; margin-top: 5px; }
 
-  /* TIMER STILOVI */
   .timer {
-    font-size: 22px;
-    font-weight: bold;
-    text-align: center;
-    padding: 15px;
-    margin-bottom: 20px;
-    border-radius: 8px;
-    background: #eaf7ee;
-    color: #2e8b57;
-    border: 2px solid #2e8b57;
-    transition: all 0.3s ease;
+    font-size: 22px; font-weight: bold; text-align: center; padding: 15px; margin-bottom: 20px;
+    border-radius: 8px; background: #eaf7ee; color: #2e8b57; border: 2px solid #2e8b57; transition: all 0.3s ease;
   }
-  .timer.warning {
-    background: #fff8e1;
-    color: #f39c12;
-    border-color: #f39c12;
-  }
-  .timer.danger {
-    background: #fdecea;
-    color: #c0392b;
-    border-color: #c0392b;
-    animation: pulse 1s infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.02); box-shadow: 0 0 20px rgba(192, 57, 43, 0.4); }
-  }
+  .timer.warning { background: #fff8e1; color: #f39c12; border-color: #f39c12; }
+  .timer.danger { background: #fdecea; color: #c0392b; border-color: #c0392b; animation: pulse 1s infinite; }
+  @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.02); box-shadow: 0 0 20px rgba(192, 57, 43, 0.4); } }
 
-  /* NOTIFIKACIJA */
   .notification {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 20px 30px;
-    border-radius: 10px;
-    color: #fff;
-    font-size: 18px;
-    font-weight: bold;
-    z-index: 1000;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-    animation: slideDown 0.5s ease;
-    text-align: center;
-    max-width: 90%;
+    position: fixed; top: 20px; left: 50%; transform: translateX(-50%); padding: 20px 30px; border-radius: 10px;
+    color: #fff; font-size: 18px; font-weight: bold; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    animation: slideDown 0.5s ease; text-align: center; max-width: 90%;
   }
   .notification.warning { background: #f39c12; }
   .notification.danger { background: #c0392b; }
   .notification.success { background: #2e8b57; }
-  @keyframes slideDown {
-    from { top: -100px; opacity: 0; }
-    to { top: 20px; opacity: 1; }
-  }
-  .notification.fade-out {
-    animation: fadeOut 0.5s ease forwards;
-  }
-  @keyframes fadeOut {
-    to { top: -100px; opacity: 0; }
-  }
+  @keyframes slideDown { from { top: -100px; opacity: 0; } to { top: 20px; opacity: 1; } }
+  .notification.fade-out { animation: fadeOut 0.5s ease forwards; }
+  @keyframes fadeOut { to { top: -100px; opacity: 0; } }
 </style>
 </head>
 <body>
@@ -102,15 +63,15 @@
 
 <script>
 /* ============================================================
-   KONFIGURACIJA VREMENA
+   KONFIGURACIJA
    ============================================================ */
-const TEST_DURATION = 30 * 60; // 30 minuta u sekundama
-const WARNING_5_MIN = 5 * 60;  // 5 minuta pre kraja
-const WARNING_1_MIN = 60;      // 1 minut pre kraja
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyJyRxYfi6emj65R5r2ZM71-qNq4Z6lHyFw7OR3iEZz2A8ukZZhpf2xdY7VM-f6DpgiBA/exec";
+const TEST_DURATION = 30 * 60; 
+const WARNING_5_MIN = 5 * 60;  
+const WARNING_1_MIN = 60;      
 
 /* ============================================================
    PITANJA - 5 VARIJANTI TESTA
-   Svaka varijanta: 10 osnovnih (1b) + 6 srednjih (2b) + 4 napredna (3b) = 34 boda
    ============================================================ */
 const TESTS = {
   1: [
@@ -249,13 +210,7 @@ function shuffle(arr) {
 
 function normalizeSQL(s) {
   if (!s) return '';
-  return s.toLowerCase()
-    .replace(/--.*$/gm, '')
-    .replace(/\s+/g, ' ')
-    .replace(/['"]/g, "'")
-    .replace(/\s*([,()=<>])\s*/g, '$1')
-    .replace(/;\s*$/, '')
-    .trim();
+  return s.toLowerCase().replace(/--.*$/gm, '').replace(/\s+/g, ' ').replace(/['"]/g, "'").replace(/\s*([,()=<>])\s*/g, '$1').replace(/;\s*$/, '').trim();
 }
 
 function sqlMatches(userAns, correctList) {
@@ -281,15 +236,11 @@ function formatTime(seconds) {
   return `${m}:${s.toString().padStart(2, '0')}`;
 }
 
-/* ============================================================
-   NOTIFIKACIJE
-   ============================================================ */
 function showNotification(message, type, duration = 4000) {
   const notif = document.createElement('div');
   notif.className = `notification ${type}`;
   notif.innerHTML = message;
   document.body.appendChild(notif);
-
   setTimeout(() => {
     notif.classList.add('fade-out');
     setTimeout(() => notif.remove(), 500);
@@ -300,9 +251,7 @@ function showNotification(message, type, duration = 4000) {
    EKRAN 1: UNOS IMENA
    ============================================================ */
 function showStart() {
-  testSubmitted = false;
-  warned5 = false;
-  warned1 = false;
+  testSubmitted = false; warned5 = false; warned1 = false;
   app.innerHTML = `
     <h1>🎓 Test iz baza podataka</h1>
     <p>Dobrodošli na test za procenu znanja iz rada sa bazama podataka i SQL-om.</p>
@@ -311,7 +260,7 @@ function showStart() {
       <li>Test sadrži 20 pitanja različitog nivoa težine</li>
       <li>Maksimalan broj bodova: <strong>34</strong></li>
       <li>Nivoi: Osnovni (0-33%), Srednji (34-66%), Napredni (67-100%)</li>
-      <li>SQL zadatke pišite bez navodnika na kraju, tačka-zarez nije obavezan</li>
+      <li>SQL zadatke pišite bez viška razmaka, velika/mala slova nisu bitna</li>
       <li style="color:#c0392b; font-weight:bold;">⏱ Vreme za test: <strong>30 minuta</strong> — test se automatski predaje kada vreme istekne!</li>
     </ul>
     <h2>Unesite vaše podatke</h2>
@@ -341,9 +290,7 @@ function startTest() {
   currentTest = { variant, questions, answers: new Array(questions.length).fill(null) };
   startTime = Date.now();
   endTime = startTime + TEST_DURATION * 1000;
-  testSubmitted = false;
-  warned5 = false;
-  warned1 = false;
+  testSubmitted = false; warned5 = false; warned1 = false;
   renderTest();
 }
 
@@ -371,11 +318,11 @@ function renderTest() {
       html += `</div>`;
     } else if (item.type === 'sql') {
       html += `<textarea name="q${idx}" placeholder="Napišite SQL komandu..." oninput="currentTest.answers[${idx}]=this.value"></textarea>
-               <div class="sql-hint">Savet: pišite bez viška razmaka, velika/mala slova nisu bitna.</div>`;
+               <div class="sql-hint">Savet: velika/mala slova nisu bitna, tačka-zarez na kraju nije obavezan.</div>`;
     }
     html += `</div></div>`;
   });
-  html += `<button type="submit">Predaj test</button></form>`;
+  html += `<button type="submit" id="submitBtn">Predaj test</button></form>`;
   app.innerHTML = html;
   updateTimer();
 }
@@ -384,51 +331,42 @@ function updateTimer() {
   clearInterval(timerInterval);
   timerInterval = setInterval(() => {
     const timerEl = document.getElementById('timer');
-    if (!timerEl || testSubmitted) {
-      clearInterval(timerInterval);
-      return;
-    }
+    if (!timerEl || testSubmitted) { clearInterval(timerInterval); return; }
 
     const now = Date.now();
     const timeLeft = Math.max(0, Math.floor((endTime - now) / 1000));
-
-    // Ažuriraj prikaz timera
     timerEl.textContent = `⏱ Preostalo vreme: ${formatTime(timeLeft)}`;
 
-    // Upozorenje na 5 minuta
     if (timeLeft <= WARNING_5_MIN && timeLeft > WARNING_1_MIN && !warned5) {
-      warned5 = true;
-      timerEl.classList.add('warning');
+      warned5 = true; timerEl.classList.add('warning');
       showNotification('⚠️ Pažnja! Preostalo je još 5 minuta do kraja testa!', 'warning', 5000);
     }
-
-    // Upozorenje na 1 minut
     if (timeLeft <= WARNING_1_MIN && timeLeft > 0 && !warned1) {
-      warned1 = true;
-      timerEl.classList.remove('warning');
-      timerEl.classList.add('danger');
+      warned1 = true; timerEl.classList.remove('warning'); timerEl.classList.add('danger');
       showNotification('🚨 UPOZORENJE! Preostao je još samo 1 minut!', 'danger', 5000);
     }
-
-    // Auto-submit kada vreme istekne
     if (timeLeft <= 0) {
       clearInterval(timerInterval);
       showNotification('⏰ Vreme je isteklo! Test se automatski predaje...', 'danger', 3000);
-      setTimeout(() => {
-        submitTest(null, true);
-      }, 1500);
+      setTimeout(() => submitTest(null, true), 1500);
     }
   }, 1000);
 }
 
 /* ============================================================
-   BODOVANJE I REZULTAT
+   BODOVANJE I SLANJE NA GOOGLE SHEETS
    ============================================================ */
-function submitTest(e, autoSubmit = false) {
+async function submitTest(e, autoSubmit = false) {
   if (e) e.preventDefault();
-  if (testSubmitted) return; // Spreči duplo predavanje
+  if (testSubmitted) return; 
   testSubmitted = true;
   clearInterval(timerInterval);
+
+  const submitBtn = document.getElementById('submitBtn');
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Čuvanje rezultata...";
+  }
 
   const now = Date.now();
   const actualTime = Math.min(TEST_DURATION, Math.floor((now - startTime) / 1000));
@@ -438,8 +376,7 @@ function submitTest(e, autoSubmit = false) {
   const details = currentTest.questions.map((item, idx) => {
     maxScore += item.pts;
     const userAns = currentTest.answers[idx];
-    let correct = false;
-    let userDisplay = '', correctDisplay = '';
+    let correct = false, userDisplay = '', correctDisplay = '';
 
     if (item.type === 'mcq') {
       correct = userAns === item.a;
@@ -450,7 +387,6 @@ function submitTest(e, autoSubmit = false) {
       userDisplay = userAns || '(bez odgovora)';
       correctDisplay = item.a[0];
     }
-
     if (correct) totalScore += item.pts;
     return { idx: idx+1, q: item.q, lvl: item.lvl, pts: item.pts, userAns: userDisplay, correctAns: correctDisplay, correct, earned: correct ? item.pts : 0 };
   });
@@ -459,24 +395,33 @@ function submitTest(e, autoSubmit = false) {
   const pct = Math.round((totalScore / maxScore) * 100);
 
   const result = {
-    name: candidateName,
-    variant: currentTest.variant,
-    score: totalScore,
-    maxScore,
-    pct,
-    level,
-    time: timeTaken,
-    autoSubmitted: autoSubmit,
-    date: new Date().toISOString(),
-    details
+    name: candidateName, variant: currentTest.variant, score: totalScore, maxScore, pct, level,
+    time: timeTaken, autoSubmitted: autoSubmit, date: new Date().toISOString(), details
   };
-  saveResult(result);
+
+  // 1. Slanje na Google Sheets
+  try {
+    await fetch(GOOGLE_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors', // Sprečava CORS greške u browseru, podaci i dalje stižu
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(result)
+    });
+  } catch (err) {
+    console.error("Greška pri slanju na Google Sheets:", err);
+  }
+
+  // 2. Čuvanje lokalno (za admin panel na istom uređaju)
+  const all = JSON.parse(localStorage.getItem('db_test_results') || '[]');
+  all.push(result);
+  localStorage.setItem('db_test_results', JSON.stringify(all));
+
+  // 3. Prikaz rezultata
   showResult(result);
 }
 
 function showResult(r) {
-  const m = Math.floor(r.time / 60);
-  const s = r.time % 60;
+  const m = Math.floor(r.time / 60), s = r.time % 60;
   const autoNote = r.autoSubmitted ? '<div style="margin-top:10px; font-size:14px; color:#ffcccc;">⏰ Test je automatski predat jer je vreme isteklo</div>' : '';
 
   let html = `
@@ -485,9 +430,7 @@ function showResult(r) {
       <div>${r.name}</div>
       <div class="score">${r.score} / ${r.maxScore}</div>
       <div>${r.pct}% tačnih</div>
-      <div style="margin-top:15px;">
-        <span class="level-badge level-${r.level}">${levelLabel(r.level).toUpperCase()} NIVO</span>
-      </div>
+      <div style="margin-top:15px;"><span class="level-badge level-${r.level}">${levelLabel(r.level).toUpperCase()} NIVO</span></div>
       <div style="margin-top:10px; font-size:14px;">Vreme: ${m}:${s.toString().padStart(2,'0')} | Varijanta: ${r.variant}</div>
       ${autoNote}
     </div>
@@ -507,82 +450,50 @@ function showResult(r) {
   app.innerHTML = html;
 }
 
-function escapeHtml(s) {
-  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-}
+function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
 /* ============================================================
-   STORAGE - rezultati
+   ADMIN PANEL
    ============================================================ */
-function saveResult(r) {
-  const all = JSON.parse(localStorage.getItem('db_test_results') || '[]');
-  all.push(r);
-  localStorage.setItem('db_test_results', JSON.stringify(all));
-}
-
 function showAdmin() {
   const pass = prompt('Admin lozinka:');
   if (pass !== 'admin123') { alert('Pogrešna lozinka'); return; }
   const all = JSON.parse(localStorage.getItem('db_test_results') || '[]');
-  if (all.length === 0) { app.innerHTML = '<h1>Admin panel</h1><p>Nema rezultata.</p><button onclick="showStart()">Nazad</button>'; return; }
+  if (all.length === 0) { app.innerHTML = '<h1>Admin panel</h1><p>Nema lokalnih rezultata. (Rezultati se čuvaju u Google Sheets tabeli)</p><button onclick="showStart()">Nazad</button>'; return; }
 
-  let html = `<h1>📊 Admin panel - Svi rezultati</h1>
-    <p>Ukupno kandidata: <strong>${all.length}</strong></p>
+  let html = `<h1>📊 Admin panel - Lokalni rezultati</h1>
+    <p><strong>Napomena:</strong> Svi rezultati se automatski čuvaju u vašoj Google Sheets tabeli. Ovo je samo lokalni pregled.</p>
+    <p>Ukupno kandidata na ovom uređaju: <strong>${all.length}</strong></p>
     <table>
       <tr><th>#</th><th>Ime</th><th>Datum</th><th>Varijanta</th><th>Bodovi</th><th>%</th><th>Nivo</th><th>Vreme</th><th>Auto?</th></tr>`;
   all.forEach((r, i) => {
     const d = new Date(r.date).toLocaleString('sr-RS');
     const m = Math.floor(r.time/60), s = r.time%60;
-    const autoFlag = r.autoSubmitted ? '⏰ DA' : '✅ NE';
-    html += `<tr><td>${i+1}</td><td>${escapeHtml(r.name)}</td><td>${d}</td><td>${r.variant}</td><td>${r.score}/${r.maxScore}</td><td>${r.pct}%</td><td><span class="level-badge level-${r.level}">${levelLabel(r.level)}</span></td><td>${m}:${s.toString().padStart(2,'0')}</td><td>${autoFlag}</td></tr>`;
+    html += `<tr><td>${i+1}</td><td>${escapeHtml(r.name)}</td><td>${d}</td><td>${r.variant}</td><td>${r.score}/${r.maxScore}</td><td>${r.pct}%</td><td><span class="level-badge level-${r.level}">${levelLabel(r.level)}</span></td><td>${m}:${s.toString().padStart(2,'0')}</td><td>${r.autoSubmitted ? '⏰ DA' : '✅ NE'}</td></tr>`;
   });
-  html += `</table>
-    <br>
-    <button onclick="exportCSV()">📥 Izvezi u CSV</button>
-    <button class="secondary" onclick="clearResults()">🗑 Obriši sve rezultate</button>
+  html += `</table><br>
+    <button class="secondary" onclick="clearResults()">🗑 Obriši lokalne rezultate</button>
     <button class="secondary" onclick="showStart()">Nazad</button>
-
-    <h2>📋 Kontrolni pregled svih pitanja sa tačnim odgovorima</h2>
-    <p><em>Napomena: redosled odgovora se randomizuje pri svakom testu, ovde su prikazani originalni tačni odgovori.</em></p>`;
+    <h2>📋 Kontrolni pregled svih pitanja sa tačnim odgovorima</h2>`;
 
   for (let v = 1; v <= 5; v++) {
     html += `<h3>Varijanta ${v}</h3>`;
     TESTS[v].forEach((q, i) => {
-      let ans = '';
-      if (q.type === 'mcq') ans = q.opts[q.a];
-      else ans = q.a.join(' <em>(ili)</em> ');
-      html += `<div class="question">
-        <span class="points">${q.pts}b | ${levelLabel(q.lvl)}</span>
-        <strong>P${i+1}.</strong> ${escapeHtml(q.q)}<br>
-        <strong>Tačan odgovor:</strong> ${escapeHtml(ans)}
-      </div>`;
+      let ans = q.type === 'mcq' ? q.opts[q.a] : q.a.join(' <em>(ili)</em> ');
+      html += `<div class="question"><span class="points">${q.pts}b | ${levelLabel(q.lvl)}</span><strong>P${i+1}.</strong> ${escapeHtml(q.q)}<br><strong>Tačan odgovor:</strong> ${escapeHtml(ans)}</div>`;
     });
   }
-
   html += `<br><button onclick="showStart()">Nazad na početak</button>`;
   app.innerHTML = html;
 }
 
-function exportCSV() {
-  const all = JSON.parse(localStorage.getItem('db_test_results') || '[]');
-  let csv = 'Ime,Datum,Varijanta,Bodovi,Maksimum,Procenat,Nivo,Vreme(s),Auto-submit\n';
-  all.forEach(r => {
-    csv += `"${r.name}","${r.date}",${r.variant},${r.score},${r.maxScore},${r.pct}%,${r.level},${r.time},${r.autoSubmitted ? 'DA' : 'NE'}\n`;
-  });
-  const blob = new Blob([csv], {type:'text/csv'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = 'rezultati_test.csv'; a.click();
-}
-
 function clearResults() {
-  if (confirm('Obrisati SVE rezultate? Ova akcija se ne može poništiti.')) {
+  if (confirm('Obrisati SVE lokalne rezultate? (Podaci u Google Sheets ostaju sačuvani)')) {
     localStorage.removeItem('db_test_results');
     showAdmin();
   }
 }
 
-// Start
 showStart();
 </script>
 </body>
